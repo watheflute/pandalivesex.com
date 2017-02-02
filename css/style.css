@@ -21,3 +21,8 @@ figure {
     margin: 10px;
     cursor: pointer;
 }
+
+#soundboard {
+    width: 1000px;
+    margin: auto;
+}

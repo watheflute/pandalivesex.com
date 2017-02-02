@@ -6,20 +6,13 @@ var TITLES = Array(
 );
 
 var sounds = {
-    'teldoCroak': Array({name:'bombotchikahaa'}, {name:'ohchikadaa'}, {name:'ooh_spit_on_him_oooh_sorry'}, {name:'punisherino'}),
+    'teldoCroak': Array({name:'bombotchikahaa'}, {name:'ohchikadaa'}, {name:'spit_on_him'}, {name:'punisherino'}, {name:'uhm_uhm_uhm'}),
     'teldoGasm': Array({name:'aaaah'}, {name:'haaan_aaah_oooh'}, {name:'ooooh'}, {name:'ooouuu'}),
-    'teldoHappy': Array({name:'garlic_omg_i_love_garlic'}, {name:'lets_fuck_him_up'}, {name:'papadadaduduu'}, {name:'timmy'})
+    'teldoHappy': Array({name:'omg_i_love_garlic'}, {name:'lets_fuck_him_up'}, {name:'papadadaduduu'}, {name:'timmy'}, {name:'weee'}),
+    'other': Array({name:'holy_macaroni'}, {name:'time_to_shiiiine'})
 };
 
-var currentSoundLoading = 0;
-var currentSoundKey = 0;
 var soundKeys = Object.keys(sounds);
-
-var soundKeysNotLoaded = Array();
-for (var i=0; i < soundKeys.length; i++) {
-    soundKeysNotLoaded.push(i);
-}
-
 
 function initSounds() {
     try {
@@ -29,18 +22,18 @@ function initSounds() {
     catch (e) {
         return;
     }
-    loadSound();
+    for (var i=0; i < soundKeys.length; i++) {
+        loadSounds(soundKeys[i], 0);
+    }
 }
 
-function loadSound() {
-    console.log(soundKeysNotLoaded);
-    console.log('load sound: ' + currentSoundKey + ' - ' + currentSoundLoading);
+function loadSounds(soundKey, currentSoundLoading) {
+    console.log('load sounds: ' + soundKey + ' - ' + currentSoundLoading);
     var request = new XMLHttpRequest();
-    var soundName = sounds[soundKeys[currentSoundKey]][currentSoundLoading].name;
-    var soundKey = soundKeys[currentSoundKey];
-    request.open("GET", "mp3/" + soundKey + '/' + soundName + '.mp3', true);
+    var soundName = sounds[soundKey][currentSoundLoading].name;
+    request.open("GET", "mp3/" + soundKey + "/" + soundName + ".mp3", true);
     request.responseType = "arraybuffer";
-    request.key = {soundkey: soundKey, soundnumber: currentSoundLoading};
+    request.key = {soundkey: soundKey, soundnumber: currentSoundLoading, soundname: soundName};
     request.onload = onSoundLoad;
     request.send();
 }
@@ -52,24 +45,17 @@ function onSoundLoad(xhr) {
         sounds[key.soundkey][key.soundnumber].buffer = buffer;
         var button = '<figure id="' + key + '" ';
         button += 'onclick="playSound(\'' + key.soundkey + '_' + key.soundnumber + '\');" ';
-        button += '><img src="im/' + key.soundkey + '.png" /><figcaption>' + sounds[key.soundkey][key.soundnumber].name.split('_').join(' ') + '</figcaption></figure>';
+
+        var image = 'teldo/' + key.soundkey;
+        if (key.soundkey == "other") {
+            image = 'other/' + key.soundname;
+        }
+
+        button += '><img src="im/' + image + '.png" /><figcaption>' + sounds[key.soundkey][key.soundnumber].name.split('_').join(' ') + '</figcaption></figure>';
         $("#soundboard").append(button);
 
-        if (sounds[soundKeys[currentSoundKey]][currentSoundLoading + 1] == null) {
-            soundKeysNotLoaded.splice($.inArray(currentSoundKey, soundKeysNotLoaded),1);
-        }
-
-        if (++currentSoundKey >= soundKeys.length) {
-            currentSoundKey = 0;
-            currentSoundLoading++;
-        }
-
-        if ($.inArray(currentSoundKey, soundKeysNotLoaded) == -1) {
-            currentSoundKey = soundKeysNotLoaded[0];
-        }
-
-        if (soundKeysNotLoaded.length != 0) {
-            loadSound();
+        if (key.soundnumber + 1 < sounds[key.soundkey].length) {
+            loadSounds(key.soundkey, key.soundnumber+1);
         }
     }, function() {
     });
@@ -78,18 +64,19 @@ function onSoundLoad(xhr) {
 function playSound(key) {
     key = key.split('_');
     key[1] = parseInt(key[1]);
+    var sound = sounds[key[0]][key[1]];
 
-    if (sounds[key[0]][key[1]].source) {
-        sounds[key[0]][key[1]].source.stop(0);
-        sounds[key[0]][key[1]].source.onended = null;
-        sounds[key[0]][key[1]].source = null;
+    if (sound.source) {
+        sound.source.stop(0);
+        sound.source.onended = null;
+        sound.source = null;
     }
 
-    if (!sounds[key[0]][key[1]].source) {
-        sounds[key[0]][key[1]].source = audioContext.createBufferSource();
-        sounds[key[0]][key[1]].source.buffer = sounds[key[0]][key[1]].buffer;
-        sounds[key[0]][key[1]].source.connect(audioContext.destination);
-        sounds[key[0]][key[1]].source.start(0);
+    if (!sound.source) {
+        sound.source = audioContext.createBufferSource();
+        sound.source.buffer = sound.buffer;
+        sound.source.connect(audioContext.destination);
+        sound.source.start(0);
     }
 }
 
