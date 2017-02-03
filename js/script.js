@@ -9,7 +9,7 @@ var sounds = {
     'teldoCroak': Array({name:'bombotchikahaa'}, {name:'ohchikadaa'}, {name:'spit_on_him'}, {name:'punisherino'}, {name:'uhm_uhm_uhm'}),
     'teldoGasm': Array({name:'aaaah'}, {name:'haaan_aaah_oooh'}, {name:'ooooh'}, {name:'ooouuu'}),
     'teldoHappy': Array({name:'omg_i_love_garlic'}, {name:'lets_fuck_him_up'}, {name:'papadadaduduu'}, {name:'timmy'}, {name:'weee'}),
-    'other': Array({name:'holy_macaroni'}, {name:'time_to_shiiiine'})
+    'other': Array({name:'holy_macaroni'}, {name:'time_to_shiiiine'}, {name:'oh_fo_fuk_sake'})
 };
 
 var soundKeys = Object.keys(sounds);
