@@ -85,8 +85,10 @@ function displayRandomTitle() {
     document.getElementById('title').innerHTML = randomTitle;
 }
 
-window.onload = function() {
+$(document).ready(function() {
     displayRandomTitle();
     initSounds();
-};
+    $('#twitch-stream-iframe').attr('src', "https://player.twitch.tv/?channel=teldoo&autoplay=true");
+    $('#twitch-chat-iframe').attr('src', "https://www.twitch.tv/teldoo/chat?popout=");
+});
 
