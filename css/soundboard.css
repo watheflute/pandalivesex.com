@@ -1,0 +1,10 @@
+#soundboard figure {
+    display: inline-block;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#soundboard {
+    margin: auto;
+    max-width: 1200px;
+}

@@ -1,0 +1,32 @@
+body {
+    font-family: 'Londrina Solid', cursive;
+    text-align: center;
+    background-color: black;
+    color: #00a750;
+    margin: 0;
+}
+
+#menu {
+    list-style-type: none;
+    text-align: left;
+    padding: 5px;
+    margin: 0;
+    background: #00a750;
+    color: black;
+}
+
+#menu li {
+    display: inline-block;
+    margin: 0 5px;
+    text-align: center;
+}
+
+#menu img {
+    margin-right: 5px;
+    float: left;
+}
+
+#menu a {
+    text-decoration: none;
+    color: black
+}
