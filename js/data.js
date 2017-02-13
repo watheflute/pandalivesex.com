@@ -38,7 +38,7 @@ var Data = {
             {name: 'sanic', im: '.png'},
             {name: 'that_headset', im: '.png'},
             {name: 'feels_good_min', im: '.png'},
-            {name: 'dat_boy', im: '.gif'},
+            {name: 'dat_boi', im: '.gif'},
             {name: 'BANANA', im: '.png'},
             {name: 'yes_it_could_be', im: '.png'},
             {name: 'shifuu', im: '.png'},
