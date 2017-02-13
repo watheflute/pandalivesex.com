@@ -20,3 +20,8 @@ $(document).ready(function() {
     Index.updateTwitchIframesSrc();
     Index.resizeTwitchIframes();
 });
+
+$(window).resize(function() {
+    Index.resizeTwitchIframes();
+});
+
