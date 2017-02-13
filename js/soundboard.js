@@ -1,16 +1,16 @@
 var Soundboard = {
+    audioContext: null,
+
     randomizeSounds: function() {
         var keys = Object.keys(Data.SOUNDS);
         for (var i=0; i < keys.length; i++) {
             Common.shuffle(Data.SOUNDS[keys[i]]);
         }
     },
+
     loadSounds: function() {
-        try {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
-        }
-        catch (e) {
+        this.audioContext = Common.initAudioContext();
+        if (this.audioContext == null) {
             return;
         }
 
@@ -35,17 +35,19 @@ var Soundboard = {
             column++;
         }
     },
+
     loadSound: function(soundKey, soundName, soundIndex) {
         var request = new XMLHttpRequest();
         request.open("GET", "/mp3/" + soundKey + "/" + soundName + ".mp3", true);
         request.responseType = "arraybuffer";
-        request.key = {soundKey: soundKey, soundIndex: soundIndex, soundName: soundName};
+        request.key = {soundKey: soundKey, soundIndex: soundIndex, soundName: soundName, audioContext: this.audioContext};
         request.onload = this.onSoundLoad;
         request.send();
     },
+
     onSoundLoad: function(xhr) {
         var key = xhr.target.key;
-        audioContext.decodeAudioData(xhr.target.response, function(buffer) {
+        key.audioContext.decodeAudioData(xhr.target.response, function(buffer) {
             Data.SOUNDS[key.soundKey][key.soundIndex].buffer = buffer;
             var button = '<figure id="' + key + '" ';
             button += 'onclick="Soundboard.playSound(\'' + key.soundKey + '_' + key.soundIndex + '\');" ';
@@ -69,6 +71,7 @@ var Soundboard = {
         }, function() {
         });
     },
+
     playSound: function(key) {
         key = key.split('_');
         key[1] = parseInt(key[1]);
@@ -81,9 +84,9 @@ var Soundboard = {
         }
 
         if (!sound.source) {
-            sound.source = audioContext.createBufferSource();
+            sound.source = this.audioContext.createBufferSource();
             sound.source.buffer = sound.buffer;
-            sound.source.connect(audioContext.destination);
+            sound.source.connect(this.audioContext.destination);
             sound.source.start(0);
         }
     }

@@ -4,6 +4,7 @@ var Data = {
         '"Panda Live SeX, prepare your Kleenex"',
         '"Panda Live SeX, schlongs harder than silex"'
     ],
+
     SOUNDS: {
         'teldoCroak': [
             {name: 'bombotchikahaa'},
@@ -51,12 +52,16 @@ var Data = {
             {name: 'welcome_everyone_to_battlerekt'},
             {name: 'when_the_venom_explodes'}]
     },
+
     MENU: [
         {title: 'Live',        link: '/'},
         {title: 'Soundboard',  link: '/soundboard'},
         {title: 'Cute pandas', link: '/cutepandas'}
     ],
+
     NUMBER_OF_PANDA_GIFS: 11,
-    NUMBER_OF_PANDA_VIDS: 9
+    NUMBER_OF_PANDA_VIDS: 9,
+    MAX_TELDOGASM_INTERVAL: 10000,
+    MIN_TELDOGASM_INTERVAL: 1000
 };
 
