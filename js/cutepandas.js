@@ -9,15 +9,19 @@ var CutePandas = {
     },
     loadCutePandasGifs: function() {
         var cutepandas_gifs = this.initCutePandasArray(Data.NUMBER_OF_PANDA_GIFS);
-        for (var i=0; i < cutepandas_gifs.length; i++) {
-            $('#cutepandas').append('<img id="cutepandas_' + i + '" />');
-            var imageObj = new Image();
-            imageObj.id = i;
-            imageObj.onload = function() {
-                $('#cutepandas_' + this.id).attr('src', this.src);
-            };
-            imageObj.src = '/im/cutepandas/' + cutepandas_gifs[i] + '.gif';
-        }
+        this.loadCutePandaGif(cutepandas_gifs, 0);
+    },
+    loadCutePandaGif: function(cutepandas_gifs, index) {
+        $('#cutepandas').append('<img id="cutepandas_' + index + '" />');
+        var imageObj = new Image();
+        imageObj.id = index;
+        imageObj.onload = function() {
+            $('#cutepandas_' + this.id).attr('src', this.src);
+            if (parseInt(this.id) + 1 < cutepandas_gifs.length) {
+                CutePandas.loadCutePandaGif(cutepandas_gifs, parseInt(this.id)  + 1);
+            }
+        };
+        imageObj.src = '/im/cutepandas/' + cutepandas_gifs[index] + '.gif';
     },
     loadCutePandaVids: function() {
         var cutepandas_vids = this.initCutePandasArray(Data.NUMBER_OF_PANDA_VIDS);
