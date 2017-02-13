@@ -1,6 +1,6 @@
 var Data = {
     TITLES: [
-        '"Panda Live SeX, pandas\' ass is the best"',
+        '"Panda Live SeX, cos pandas\' ass is the best"',
         '"Panda Live SeX, prepare your Kleenex"',
         '"Panda Live SeX, schlongs harder than silex"'
     ],
@@ -62,6 +62,6 @@ var Data = {
     NUMBER_OF_PANDA_GIFS: 11,
     NUMBER_OF_PANDA_VIDS: 9,
     MAX_TELDOGASM_INTERVAL: 10000,
-    MIN_TELDOGASM_INTERVAL: 1000
+    MIN_TELDOGASM_INTERVAL: 2500
 };
 

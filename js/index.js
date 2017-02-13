@@ -56,6 +56,7 @@ var Index = {
         var randomIndex = Common.randomElementFromArray(self.loadedTeldoGasms);
         setTimeout(function() {
             self.playTeldoGasm(randomIndex);
+            self.displayTeldoGasmImage();
             self.playRandomTeldoGasmsLoop();
         }, randomInterval);
     },
@@ -66,6 +67,39 @@ var Index = {
         sound.source.buffer = sound.buffer;
         sound.source.connect(this.audioContext.destination);
         sound.source.start(0);
+    },
+
+    loadTeldoGasmImage: function() {
+        $('body').append('<img id="teldoGasm" />');
+        $('#teldoGasm').css('opacity', '0');
+        var imageObj = new Image();
+        imageObj.onload = function() {
+            $('#teldoGasm').attr('src', this.src);
+        };
+        imageObj.src = '/im/teldo/teldoGasm.png';
+    },
+
+    displayTeldoGasmImage: function() {
+        $('#teldoGasm').show();
+        $('#teldoGasm').animate({opacity: 1, left: this.randomOffset(), top: this.randomOffset()}, 2000);
+        var self = this;
+        setTimeout(function() {
+            $('#teldoGasm').animate({opacity: 0, left: self.randomPosition($(window).width()), top: self.randomPosition($(window).height())}, 1);
+        }, 2000);
+    },
+
+    randomOffset: function() {
+        var offset = Math.round(Math.random() * 100) - 50;
+        if (offset >= 0 ) {
+            return '+=' + offset;
+        } else {
+            return '-=' + parseInt(-offset);
+        }
+    },
+
+    randomPosition: function(max) {
+        var position = Math.round(Math.random() * (max - 500));
+        return position + 'px';
     }
 };
 
@@ -74,6 +108,7 @@ $(document).ready(function() {
     Index.displayRandomTitle();
     Index.updateTwitchIframesSrc();
     Index.resizeTwitchIframes();
+    Index.loadTeldoGasmImage();
     Index.loadTeldoGasms();
 });
 
