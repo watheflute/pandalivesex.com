@@ -69,7 +69,7 @@ var Data = {
     BAMBOOGASM_LEVELS: [
         {text: 'But you\'re still a scrub', im: 'other/lul.png'},
         {text: 'Not a scrub anymore, eh?', im: 'teldo/teldoCroak.png'},
-        {text: 'You belong the piyanda party', im: 'teldo/teldoHappy.png'},
+        {text: 'You belong to the piyanda party', im: 'teldo/teldoHappy.png'},
         {text: 'You\'re a bambooGasm god', im: 'teldo/teldoGasm.png'}
     ]
 };
