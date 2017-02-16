@@ -3,8 +3,7 @@ var Index = {
     loadedTeldoGasms: [],
 
     displayRandomTitle: function() {
-        var randomTitle = Common.randomElementFromArray(Data.TITLES);
-        document.getElementById('title').innerHTML = randomTitle;
+        $('#title').html(Common.randomElementFromArray(Data.TITLES));
     },
 
     updateTwitchIframesSrc: function() {
@@ -18,12 +17,13 @@ var Index = {
         $('#twitch-stream-iframe').width($(window).width() - 350);
     },
 
-    loadTeldoGasms: function() {
+    loadSounds: function() {
         this.audioContext = Common.initAudioContext();
         if (this.audioContext == null) {
             return;
         }
         this.loadTeldoGasm(0);
+        this.loadWeeSound();
     },
 
     loadTeldoGasm: function(index) {
@@ -33,6 +33,28 @@ var Index = {
         request.info = {soundIndex: index, self: this};
         request.onload = this.onTeldoGasmLoad;
         request.send();
+    },
+
+    loadWeeSound: function() {
+        var self = this;
+        var request = new XMLHttpRequest();
+        request.open("GET", "/mp3/teldoHappy/weee.mp3", true);
+        request.responseType = "arraybuffer";
+        var weeSoundIndex = this.findWeeSoundIndex();
+        request.onload = function(xhr) {
+            self.audioContext.decodeAudioData(xhr.target.response, function(buffer) {
+                Data.SOUNDS['teldoHappy'][weeSoundIndex].buffer = buffer;
+            }, function() {});
+        };
+        request.send();
+    },
+
+    findWeeSoundIndex: function() {
+        for (var i=0; i < Data.SOUNDS['teldoHappy'].length; i++) {
+            if (Data.SOUNDS['teldoHappy'][i].name == 'weee') {
+                return i;
+            }
+        }
     },
 
     onTeldoGasmLoad: function(xhr) {
@@ -69,12 +91,22 @@ var Index = {
         sound.source.start(0);
     },
 
+    playWeeSound: function() {
+        var sound = Data.SOUNDS['teldoHappy'][this.findWeeSoundIndex()];
+        sound.source = this.audioContext.createBufferSource();
+        sound.source.buffer = sound.buffer;
+        sound.source.connect(this.audioContext.destination);
+        sound.source.start(0);
+    },
+
     loadTeldoGasmImage: function() {
         $('body').append('<img id="teldoGasm" />');
-        $('#teldoGasm').css('opacity', '0');
+        $('#teldoGasm').hide();
         var imageObj = new Image();
+        var self = this;
         imageObj.onload = function() {
             $('#teldoGasm').attr('src', this.src);
+            $('#teldoGasm').click(self.gainOneBamboogasm.bind(self));
         };
         imageObj.src = '/im/teldo/teldoGasm.png';
     },
@@ -100,6 +132,49 @@ var Index = {
     randomPosition: function(max) {
         var position = Math.round(Math.random() * (max - 500));
         return position + 'px';
+    },
+
+    initBamboogasmCount: function() {
+        if (typeof(Storage) !== "undefined") {
+           localStorage.setItem("bamboogasmCount", 0);
+        }
+    },
+
+    gainOneBamboogasm: function() {
+        if ($('#teldoGasm').is(":visible")) {
+            this.playWeeSound();
+            if (typeof(Storage) !== "undefined") {
+                this.incrementBamboogasmCount();
+                this.displayBamboogasmCountInTitle();
+            }
+            $('#teldoGasm').hide();
+        }
+    },
+
+    incrementBamboogasmCount: function() {
+        localStorage.setItem('bamboogasmCount', parseInt(localStorage.getItem('bamboogasmCount')) + 1);
+    },
+
+    displayBamboogasmCountInTitle: function() {
+        var bamboogasmCount = localStorage.getItem('bamboogasmCount');
+        var bamboogasmName = 'bamboogasm';
+        if (bamboogasmCount > 1) {
+            bamboogasmName += 's';
+        }
+        var bamboogasmLevel = this.getBamboogasmLevel(bamboogasmCount);
+        $('#title').html('You have <span class="bamboogasmCount">' + bamboogasmCount + ' ' + bamboogasmName + '</span> ! ' + bamboogasmLevel);
+    },
+
+    getBamboogasmLevel: function(bamboogasmCount) {
+        var levelIndex = Math.floor(parseInt(bamboogasmCount) / 10);
+        if (levelIndex >= Data.BAMBOOGASM_LEVELS.length) {
+            levelIndex = Data.BAMBOOGASM_LEVELS.length - 1;
+        }
+        return this.formatBamboogasmLevel(levelIndex);
+    },
+
+    formatBamboogasmLevel: function(index) {
+       return Data.BAMBOOGASM_LEVELS[index].text + ' <img class="emote" src="/im/' + Data.BAMBOOGASM_LEVELS[index].im + '" />';
     }
 };
 
@@ -109,7 +184,8 @@ $(document).ready(function() {
     Index.updateTwitchIframesSrc();
     Index.resizeTwitchIframes();
     Index.loadTeldoGasmImage();
-    Index.loadTeldoGasms();
+    Index.initBamboogasmCount();
+    Index.loadSounds();
 });
 
 $(window).resize(function() {

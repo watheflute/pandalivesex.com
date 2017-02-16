@@ -8,4 +8,14 @@
     top: 100px;
     width: 200px;
     height: 200px;
+    cursor: pointer;
+}
+
+.bamboogasmCount {
+    color: yellow;
+}
+
+.emote {
+    width: 28px;
+    height: 28px;
 }
