@@ -38,7 +38,7 @@ var Soundboard = {
 
     loadSound: function(soundKey, soundName, soundIndex) {
         var request = new XMLHttpRequest();
-        request.open("GET", "/mp3/" + soundKey + "/" + soundName + ".mp3", true);
+        request.open("GET", "/sound/" + soundKey + "/" + soundName + ".mp3", true);
         request.responseType = "arraybuffer";
         request.key = {soundKey: soundKey, soundIndex: soundIndex, soundName: soundName, audioContext: this.audioContext};
         request.onload = this.onSoundLoad;

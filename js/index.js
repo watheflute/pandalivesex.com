@@ -28,7 +28,7 @@ var Index = {
 
     loadTeldoGasm: function(index) {
         var request = new XMLHttpRequest();
-        request.open("GET", "/mp3/teldoGasm/" + Data.SOUNDS['teldoGasm'][index].name + ".mp3", true);
+        request.open("GET", "/sound/teldoGasm/" + Data.SOUNDS['teldoGasm'][index].name + ".mp3", true);
         request.responseType = "arraybuffer";
         request.info = {soundIndex: index, self: this};
         request.onload = this.onTeldoGasmLoad;
@@ -38,7 +38,7 @@ var Index = {
     loadWeeSound: function() {
         var self = this;
         var request = new XMLHttpRequest();
-        request.open("GET", "/mp3/teldoHappy/weee.mp3", true);
+        request.open("GET", "/sound/teldoHappy/weee.mp3", true);
         request.responseType = "arraybuffer";
         var weeSoundIndex = this.findWeeSoundIndex();
         request.onload = function(xhr) {

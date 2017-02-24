@@ -62,14 +62,15 @@ var Data = {
     ],
 
     NUMBER_OF_PANDA_GIFS: 11,
-    NUMBER_OF_PANDA_VIDS: 9,
+    NUMBER_OF_PANDA_JPGS: 1,
+    NUMBER_OF_PANDA_MP4S: 10,
     MAX_TELDOGASM_INTERVAL: 10000,
     MIN_TELDOGASM_INTERVAL: 2500,
 
     BAMBOOGASM_LEVELS: [
         {text: 'But you\'re still a scrub', im: 'other/lul.png'},
         {text: 'Not a scrub anymore, eh?', im: 'teldo/teldoCroak.png'},
-        {text: 'You belong to the piyanda party', im: 'teldo/teldoHappy.png'},
+        {text: 'You belong to the pyanda party', im: 'teldo/teldoHappy.png'},
         {text: 'You\'re a bambooGasm god', im: 'teldo/teldoGasm.png'}
     ]
 };
